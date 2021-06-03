@@ -1,0 +1,74 @@
+# reference
+genome:
+  name: hg38
+  size: hs
+  fasta: /share/references/hg38/fasta/hg38.fa
+  bwa_index: /share/references/hg38/bwa_index/hg38.fa
+  blacklist: /share/references/hg38/blacklist/hg38.blacklist.sorted.bed
+  txdb: /share/references/hg38/txdb/ucsc-hg38-knowgene.sqlite
+
+# output plots formats
+plot_formats:
+  - pdf
+  - png
+
+
+# parameters
+# qvalue use in macs2 call peak
+qvalue: 0.01
+# tss flank size use in ROSE
+tss: 1500
+
+# workspace for all jobs to run the pipeline
+# all of your output will be place in this dir
+workspace: /path/to/workspace
+
+# samples info
+# warning: lib name should be unique!
+samples:
+  sample1_rep1:
+    treat:
+      sample1_rep1_treat_lib:
+        - /path/to/sample1_rep1/sample1_rep1_treat_lib1.fastq.gz
+    input:
+      sample1_input:
+        - /path/to/sample1_input.fastq.gz
+    meta:
+      sample: sample1
+      anti: H3k27ac
+  sample1_rep2:
+    treat:
+      sample1_rep2_treat_lib2:
+        - /path/to/sample1_rep2/sample1_rep2_treat_lib2.fastq.gz
+    input:
+      sample1_input:
+        - /path/to/sample2_input.fastq.gz
+    meta:
+      sample: sample1
+      anti: H3k27ac
+  sample2_rep1:
+    treat:
+      sample2_rep1_treat_lib1:
+        - /path/to/sample2_rep1/sample2_rep1_treat_lib1.fastq.gz
+    input:
+      sample1_input:
+        - /path/to/sample2_input.fastq.gz
+    meta:
+      sample: sample2
+      anti: H3k27ac
+  sample2_rep2:
+    treat:
+      sample2_rep2_treat_lib2:
+        - /path/to/sample2_rep2/sample2_rep2_treat_lib2.fastq.gz
+    input:
+      sample2_input:
+        - /path/to/sample2_input.fastq.gz
+    meta:
+      sample: sample2
+      anti: H3k27ac
+
+comparisons:
+  ESCC_vs_ESAC:
+    condition: sample
+    numerator: sample2
+    denominator: sample1
