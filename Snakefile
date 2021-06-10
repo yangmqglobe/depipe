@@ -10,6 +10,7 @@ include: 'rules/callpeak.smk'
 include: 'rules/aggregate.smk'
 include: 'rules/comparison.smk'
 include: 'rules/rose.smk'
+include: 'rules/crcmapper.smk'
 
 import os
 
@@ -51,9 +52,22 @@ rule rose_all:
         )
 
 
+rule crcmapper_all:
+    input:
+        expand(
+            config['workspace'] + '/CRC/crcmapper/{sample}/{sample}_CRC_SCORES.txt',
+            sample=config['samples']
+        ),
+        expand(
+            config['workspace'] + '/CRC/crcmapper/{sample}/downstream/{sample}_crc_regulate.txt',
+            sample=config['samples']
+        )
+
+
 rule all:
     input:
         rules.basic_all.input,
         rules.plot_all.input,
         rules.compare_all.input,
-        rules.rose_all.input
+        rules.rose_all.input,
+        rules.crcmapper_all.input
