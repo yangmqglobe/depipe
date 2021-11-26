@@ -29,7 +29,8 @@ def find_chrom_sizes(wildcards):
 rule callpeak:
     output:
         narrowPeak=config['workspace'] + '/callpeak/{sample}/{sample}_peaks.narrowPeak',
-        treat_bdg=config['workspace'] + '/callpeak/{sample}/{sample}_treat_pileup.bdg'
+        treat_bdg=config['workspace'] + '/callpeak/{sample}/{sample}_treat_pileup.bdg',
+        control_bdg=config['workspace'] + '/callpeak/{sample}/{sample}_control_lambda.bdg'
     input:
         treat=find_treat_tags,
         control=find_control_tags
@@ -55,9 +56,9 @@ rule callpeak:
 
 rule bdg_clip:
     output:
-        temp(config['workspace'] + '/callpeak/{sample}/{sample}_treat_pileup_clip.bdg')
+        temp(config['workspace'] + '/callpeak/{sample}/{sample}_{type}_clip.bdg')
     input:
-        rules.callpeak.output.treat_bdg,
+        config['workspace'] + '/callpeak/{sample}/{sample}_{type}.bdg',
         find_chrom_sizes
     shell:
         'bedClip {input} {output}'
@@ -65,7 +66,7 @@ rule bdg_clip:
 
 rule bdg_sort:
     output:
-        temp(config['workspace'] + '/callpeak/{sample}/{sample}_treat_pileup_sort.bdg')
+        temp(config['workspace'] + '/callpeak/{sample}/{sample}_{type}_sort.bdg')
     input:
         rules.bdg_clip.output
     shell:
@@ -74,7 +75,7 @@ rule bdg_sort:
 
 rule bdg2bw:
     output:
-        config['workspace'] + '/callpeak/{sample}/{sample}_treat_pileup.bw'
+        config['workspace'] + '/callpeak/{sample}/{sample}_{type}.bw'
     input:
         rules.bdg_sort.output,
         find_chrom_sizes

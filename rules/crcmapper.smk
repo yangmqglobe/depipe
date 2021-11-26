@@ -24,7 +24,7 @@ rule crcmapper:
     log:
         config['workspace'] + '/log/crcmapper/{sample}_crcmapper.log'
     run:
-        outdir = os.path.dirname(str(output))
+        outdir = os.path.dirname(str(output.crc))
         crcmapper = (
             f'python {BASE_DIR}/tools/CRCmapper/CRCmapper.py'
             f' -e {input.enhancer} -g {config["genome"]["name"]} -f {config["genome"]["fasta"]}'

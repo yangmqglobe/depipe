@@ -24,6 +24,10 @@ rule basic_all:
             config['workspace'] + '/callpeak/{sample}/{sample}_treat_pileup.bw',
             sample=config['samples']
         ),
+        expand(
+            config['workspace'] + '/callpeak/{sample}/{sample}_control_lambda.bw',
+            sample=config['samples']
+        ),
         config['workspace'] + '/aggregate/all_uniq_peaks_annotated.bed',
         config['workspace'] + '/aggregate/all_sample_fpkm_qnorm.txt'
 
