@@ -21,6 +21,10 @@ BASE_DIR = os.path.dirname(workflow.snakefile)
 rule basic_all:
     input:
         expand(
+            config['workspace'] + '/callpeak/{sample}/{sample}_peaks.bed',
+            sample=config['samples']
+        ),
+        expand(
             config['workspace'] + '/callpeak/{sample}/{sample}_treat_pileup.bw',
             sample=config['samples']
         ),

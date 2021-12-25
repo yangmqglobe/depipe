@@ -54,6 +54,16 @@ rule callpeak:
         shell(macs2)
 
 
+rule narrowPeak2bed:
+    output:
+        config['workspace'] + '/callpeak/{sample}/{sample}_peaks.bed'
+    input:
+        rules.callpeak.output.narrowPeak
+    shell:
+        'awk \'BEGIN {{OFS="\\t"}}{{print $1,$2,$3,$4,$5}}\' {input} > {output}'
+        ' && bedSort {output} {output}'
+
+
 rule bdg_clip:
     output:
         temp(config['workspace'] + '/callpeak/{sample}/{sample}_{type}_clip.bdg')
