@@ -54,6 +54,18 @@ rule callpeak:
         shell(macs2)
 
 
+rule narrowPeakAnnotate:
+    output:
+        config['workspace'] + '/callpeak/{sample}/{sample}_peaks_annotated.txt'
+    input:
+        rules.callpeak.output.narrowPeak,
+        config['genome']['txdb']
+    params:
+        script=lambda wildcards: BASE_DIR + '/tools/annotate.R'
+    shell:
+        'Rscript {params.script} {input} {output}'
+
+
 rule narrowPeak2bed:
     output:
         config['workspace'] + '/callpeak/{sample}/{sample}_peaks.bed'
