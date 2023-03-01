@@ -79,7 +79,8 @@ rule clean_bed:
     params:
         blacklist=config['genome']['blacklist']
     shell:
-        'bedtools complement -g {input} -i {params.blacklist} > {output}'
+        'sort -k1,1V -k2,2n {params.blacklist}'
+        ' | bedtools complement -g {input} -i stdin > {output}'
 
 
 rule fragment:
